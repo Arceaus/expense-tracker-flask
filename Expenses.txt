@@ -1,0 +1,2 @@
+Month: January, Amount: 4335.0, Category: Eating Out / Restaurants, Description: efdf, Date: 2025-10-15 12:03:44.739280
+Month: January, Amount: 4543.0, Category: Tea / Coffee, Description: edasf, Date: 2025-10-15 12:06:23.569692

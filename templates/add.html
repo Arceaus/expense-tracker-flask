@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Expense</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #7b2ff7, #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .expense-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 550px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+    .form-control, .form-select {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #333;
+      border-radius: 10px;
+    }
+    .btn-primary {
+      background-color: #ffffff;
+      color: #0d6efd;
+      font-weight: bold;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #e3f2ff;
+      color: #0d6efd;
+    }
+    footer {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="expense-card">
+    <h1 class="text-center fw-bold mb-3">💸 Add Expense</h1>
+    <p class="text-center text-white-50 mb-4">Fill the form below to log your new expense</p>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-3">
+          {% for category, msg in messages %}
+            <div class="alert alert-success py-2 mb-2 text-center">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Expense Form -->
+    <form action="/add" method="post">
+
+      <!-- Month -->
+      <div class="mb-3">
+        <label for="month" class="form-label fw-semibold">Select Month</label>
+        <select class="form-select" id="month" name="month" required>
+          {% for month in months %}
+            <option value="{{ month }}">{{ month }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Amount -->
+      <div class="mb-3">
+        <label for="amount" class="form-label fw-semibold">Amount (₹)</label>
+        <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter amount" required>
+      </div>
+
+      <!-- Category -->
+      <div class="mb-3">
+        <label for="category" class="form-label fw-semibold">Expense Category</label>
+        <select class="form-select" id="category" name="category" required>
+          <option value="">Select Category</option>
+
+          <!-- 🏠 Household / Living -->
+          <optgroup label="🏠 Household / Living">
+            <option value="Rent / Home Loan">Rent / Home Loan</option>
+            <option value="Electricity Bill">Electricity Bill</option>
+            <option value="Water Bill">Water Bill</option>
+            <option value="Gas / Cooking">Gas / Cooking</option>
+            <option value="Maintenance / Repairs">Maintenance / Repairs</option>
+            <option value="Internet / Wi-Fi">Internet / Wi-Fi</option>
+            <option value="Mobile Recharge">Mobile Recharge</option>
+          </optgroup>
+
+          <!-- 🍽️ Food & Groceries -->
+          <optgroup label="🍽️ Food & Groceries">
+            <option value="Groceries">Groceries</option>
+            <option value="Vegetables & Fruits">Vegetables & Fruits</option>
+            <option value="Dairy & Bakery">Dairy & Bakery</option>
+            <option value="Snacks">Snacks</option>
+            <option value="Eating Out / Restaurants">Eating Out / Restaurants</option>
+            <option value="Tea / Coffee">Tea / Coffee</option>
+          </optgroup>
+
+          <!-- 🚗 Transportation -->
+          <optgroup label="🚗 Transportation">
+            <option value="Fuel">Fuel</option>
+            <option value="Public Transport">Public Transport</option>
+            <option value="Vehicle Maintenance">Vehicle Maintenance</option>
+            <option value="Parking / Tolls">Parking / Tolls</option>
+          </optgroup>
+
+          <!-- 💼 Work / Education -->
+          <optgroup label="💼 Work / Education">
+            <option value="School / College Fees">School / College Fees</option>
+            <option value="Stationery / Books">Stationery / Books</option>
+            <option value="Online Courses">Online Courses</option>
+            <option value="Office Supplies">Office Supplies</option>
+          </optgroup>
+
+          <!-- 💊 Health & Personal Care -->
+          <optgroup label="💊 Health & Personal Care">
+            <option value="Medicines">Medicines</option>
+            <option value="Doctor Visits">Doctor Visits</option>
+            <option value="Gym / Fitness">Gym / Fitness</option>
+            <option value="Personal Care">Personal Care</option>
+          </optgroup>
+
+          <!-- 🎉 Entertainment & Leisure -->
+          <optgroup label="🎉 Entertainment & Leisure">
+            <option value="Movies / Subscriptions">Movies / Subscriptions</option>
+            <option value="Outings / Trips">Outings / Trips</option>
+            <option value="Hobbies / Games">Hobbies / Games</option>
+          </optgroup>
+
+          <!-- 👗 Shopping -->
+          <optgroup label="👗 Shopping">
+            <option value="Clothes / Footwear">Clothes / Footwear</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Electronics / Gadgets">Electronics / Gadgets</option>
+          </optgroup>
+
+          <!-- 💰 Financial -->
+          <optgroup label="💰 Financial">
+            <option value="Savings / Investments">Savings / Investments</option>
+            <option value="Insurance Premiums">Insurance Premiums</option>
+            <option value="Loan Payments">Loan Payments</option>
+            <option value="Credit Card Bills">Credit Card Bills</option>
+          </optgroup>
+
+          <!-- 🎁 Gifts & Donations -->
+          <optgroup label="🎁 Gifts & Donations">
+            <option value="Gifts">Gifts</option>
+            <option value="Donations">Donations</option>
+          </optgroup>
+
+          <!-- 🐾 Other / Miscellaneous -->
+          <optgroup label="🐾 Other / Miscellaneous">
+            <option value="Pet Care">Pet Care</option>
+            <option value="Unexpected Expenses">Unexpected Expenses</option>
+            <option value="Miscellaneous">Miscellaneous</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-4">
+        <label for="description" class="form-label fw-semibold">Description</label>
+        <input type="text" class="form-control" id="description" name="description" placeholder="Enter description">
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-grid mb-3">
+        <button type="submit" class="btn btn-primary py-2">✅ Add Expense</button>
+      </div>
+    </form>
+
+    <!-- Back Button -->
+    <div class="text-center">
+      <a href="{{ url_for('expenses') }}" class="btn btn-outline-light px-4">⬅ Back to Expenses</a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-4">
+      Built with 💡 Flask + Bootstrap 5
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
