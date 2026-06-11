@@ -7,7 +7,6 @@ BUDGET_LIMIT = 10000  # set your monthly spending limit
 
 @app.route("/")
 def expenses():
-    print("LOADING EXPENSES.HTML")
     return render_template("expenses.html")
 
 @app.route("/add", methods=["GET", "POST"])
